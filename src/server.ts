@@ -8,15 +8,16 @@ import dotenv from 'dotenv';
 import { errorHandler } from 'errors';
 import { validationErrorHandler } from 'validation';
 import {
-  authRouter, 
-  userRouter, 
-  resourceRouter, 
+  authRouter,
+  userRouter,
+  resourceRouter,
   itemRouter,
+  noteRouter,
 } from './routers';
 
 import * as constants from './util/constants';
 
-dotenv.config();
+require('dotenv').config();
 
 // initialize
 const app = express();
@@ -36,6 +37,7 @@ app.use('/auth', authRouter); // NOTE: Not secured
 app.use('/users', userRouter); // NOTE: Completely secured to users
 app.use('/resources', resourceRouter); // NOTE: Partially secured to users
 app.use('/items', itemRouter);
+app.use('/notes', noteRouter); // NOTE: Partially secured to users
 
 // default index route
 app.get('/', (req, res) => {
@@ -52,6 +54,15 @@ app.use(errorHandler);
 
 // START THE SERVER
 // =============================================================================
-const server = app.listen(constants.PORT);
-if (process.env.NODE_ENV !== 'test') console.log(`listening on: ${constants.PORT}`);
-export default server;
+async function startServer() {
+  try {
+    const port = process.env.PORT || 9090;
+    app.listen(port);
+
+    console.log(`Listening on port ${port}`);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+startServer();

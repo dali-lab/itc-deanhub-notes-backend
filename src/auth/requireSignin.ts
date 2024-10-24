@@ -14,12 +14,16 @@ const localOptions = { usernameField: 'email' };
 // Make a login strategy to check email and password against DB
 const localLogin = new LocalStrategy(localOptions, async (email, password, done) => {
   try {
+    console.log('email', email);
+    console.log('password', password);
     const user = await prisma.user.findUniqueOrThrow({
       where: {
         email,
       },
     });
-    if (!user) return done(null, false, { message: 'Email address not associated with a user' });
+    if (!user) {
+      return done(null, false, { message: 'Email address not associated with a user' });
+    }
 
     bcrypt.compare(password, user.password, (error, same) => {
       if (error) {
@@ -29,6 +33,7 @@ const localLogin = new LocalStrategy(localOptions, async (email, password, done)
           done(null, false, { message: 'Incorrect password' });
         } else {
           done(null, user);
+          console.log('found user: ', user);
         }
       }
     });
@@ -43,6 +48,7 @@ passport.use(localLogin);
 
 // Create function to transmit result of authenticate() call to user or next middleware
 const requireSignin: RequestHandler = (req, res, next) => {
+  console.log('we are here');
   // Validation of parameters
   if (!req.body.email) {
     return res.status(400).json({ message: getFieldNotFoundError('email') });
@@ -55,10 +61,15 @@ const requireSignin: RequestHandler = (req, res, next) => {
   // eslint-disable-next-line prefer-arrow-callback
   return passport.authenticate('local', { session: false }, function (err, user, info) {
     // Return any existing errors
-    if (err) { return next(err); }
-
+    if (err) {
+      console.log('error', err);
+      return next(err);
+    }
     // If no user found, return appropriate error message
-    if (!user) { return res.status(401).json({ message: info.message || 'Error authenticating email and password' }); }
+    if (!user) {
+      console.log('did not find user');
+      return res.status(401).json({ message: info.message || 'Error authenticating email and password' });
+    }
 
     req.user = user;
 

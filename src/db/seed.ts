@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import { UserRole, PrismaClient } from '@prisma/client';
-import { HASH_ROUNDS } from 'util/constants';
+import { HASH_ROUNDS } from '../util/constants';
 
 const prisma = new PrismaClient();
 
@@ -131,6 +131,39 @@ async function main() {
         console.log(e);
       }
     }));
+
+  /**
+* Note Data
+*/
+  const notes = [
+    {
+      authorId: 'user@gmail.com',
+      studentUUID: '123e4567-e89b-12d3-a456-426614174000',
+      noteContent: 'This is a note content for user.',
+      initialIssue: 'Initial issue description',
+      dateCreated: new Date(),
+    },
+    {
+      authorId: 'admin@gmail.com',
+      studentUUID: '123e4567-e89b-12d3-a456-426614174001',
+      noteContent: 'This is a note content for admin.',
+      initialIssue: 'Another initial issue description',
+      dateCreated: new Date(),
+    },
+  ];
+  await Promise.all(
+    notes.map(async (note) => {
+      try {
+        await prisma.note.create({
+          data: {
+            ...note,
+          },
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    })
+  );
   console.log('Seeding done');
   process.exit(0);
 }

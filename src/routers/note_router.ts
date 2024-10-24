@@ -2,11 +2,11 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import { createValidator } from 'express-joi-validation';
 import requireScope from 'auth/requireScope';
-import { resourceController } from 'controllers';
+import { noteController } from 'controllers';
 import { errorHandler } from 'errors';
 import { validationErrorHandler } from 'validation';
 
-import { CreateResourceSchema, UpdateResourceSchema } from 'validation/resource';
+import { CreateNoteSchema, UpdateNoteSchema } from 'validation/note';
 import { SCOPES } from 'auth/scopes';
 
 const router = express();
@@ -23,27 +23,27 @@ if (process.env.NODE_ENV === 'test') {
 router.route('/')
   .post(
     requireScope(SCOPES.USER.name),
-    validator.body(CreateResourceSchema),
-    resourceController.createResource,
+    validator.body(CreateNoteSchema),
+    noteController.createNote,
   )
   .get(
     requireScope(SCOPES.USER.name),
-    resourceController.getResources,
+    noteController.getNotes,
   );
 
 router.route('/:id')
   .get(
     requireScope(SCOPES.USER.name),
-    resourceController.getResource,
+    noteController.getNote,
   )
   .patch(
     requireScope(SCOPES.USER.name),
-    validator.body(UpdateResourceSchema),
-    resourceController.updateResource,
+    validator.body(UpdateNoteSchema),
+    noteController.updateNote,
   )
   .delete(
     requireScope(SCOPES.USER.name),
-    resourceController.deleteResource,
+    noteController.deleteNote,
   );
 
 if (process.env.NODE_ENV === 'test') {

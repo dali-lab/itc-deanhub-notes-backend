@@ -1,4 +1,4 @@
-# CRUD Template - Backend - Prisma
+# DeanHub CRUD Backend for Notes
 
 This repository is an optional backend starter pack for new DALI React projects. Installation and setup instructions are included below. You should eventually customize this README file with project-specific documentation.
 
@@ -8,7 +8,7 @@ See the template repo's Wiki page.
 ## Designs
 [Screenshot description]
 
-[Link to the project Figma]()
+[Link to the project Figma](https://www.figma.com/design/0TEFlXXxJIuh4MoLBIFV7e/DeanHub-24F?node-id=1303-23&node-type=frame&t=imTEDVPQqnfGajjz-0)
 
 [2-4 screenshots from the app]
 
@@ -31,15 +31,16 @@ See the template repo's Wiki page.
 We are using [typically a configuration like [CS52's React-Native ESLint Configuration](https://gist.github.com/timofei7/c8df5cc69f44127afb48f5d1dffb6c84) or [CS52's ES6 and Node ESLint Configuration](https://gist.github.com/timofei7/21ac43d41e506429495c7368f0b40cc7)]
 
 ### Data Models
-[Brief description of typical data models.]
+Notes will store information about Author id,
+Student UUID, note content, initial issue or reason to meet, and date created.
 
 [Detailed description should be moved to the repo's Wiki page]
 
 ### Directory Structure
 
     .
-    ├── ...         
-    ├── src                    
+    ├── ...
+    ├── src
     |   └── auth                # JWT middleware
     |   └── controllers         # dispatch input; output
     |   └── db                  # Prisma database definitions
@@ -79,14 +80,14 @@ ESLint is set up in this project. To keep code clean, always remember to run `ya
 TBD
 
 ## Deployment
-[Where is the app deployed? i.e. Expo, Surge, TestFlight etc.]
+The app is deployed on [Expo]()
 
 [What are the steps to re-deploy the project with any new changes?]
 
 [How does one get access to the deployed project?]
 
 ## Authors
-* Firstname Lastname 'YY, role
+* Marvin Escobar Barajas '25, Software Developer
 
 ## Acknowledgments
 We would like to thank [anyone you would like to acknowledge] for [what you would like to acknowledge them for].

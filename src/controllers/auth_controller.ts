@@ -41,6 +41,7 @@ const signUpUser: RequestHandler = async (req: ValidatedRequest<SignUpUserReques
 };
 
 const signInUser: RequestHandler = (req: RequestWithJWT, res) => {
+  console.log('req.user', req.user);
   const { password, ...restOfUser } = req.user;
 
   res.json({ token: tokenForUser(req.user), user: restOfUser });
@@ -60,12 +61,12 @@ const resendCode: RequestHandler = async (req: ValidatedRequest<ResendCodeReques
 
     const users = await userService.getUsers({ email });
     if (users.length === 0) throw new BaseError('No user with that phone number', 400);
-    
+
     await verificationCodeService.createVerificationCode({ email });
     const codePayload = await verificationCodeService.createVerificationCode({ email });
     const message = `You must enter this code in the app before you can gain access; it will expire in 5 minutes. Your code is: ${codePayload.code}`;
     await sendEmail({ email, subject: 'Verification Code', html: message });
-      
+
     res.sendStatus(201);
   } catch (e: any) {
     console.log(e);
