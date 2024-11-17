@@ -1,7 +1,22 @@
+import {
+  BaseError,
+  getFieldNotFoundError,
+} from 'errors';
+import {
+  ContainerTypes,
+  ValidatedRequestSchema,
+} from 'express-joi-validation';
 import joi from 'joi';
-import { ValidatedRequestSchema, ContainerTypes } from 'express-joi-validation';
+
 import { Note } from '@prisma/client';
-import { BaseError, getFieldNotFoundError } from 'errors';
+
+/* MAPPINGS FROM BACKEND TO FRONTEND
+  comment_date - dateCreated
+  visit_type - visitType
+  code_desc - initialIssue
+  comment_text - noteContent
+  dean_full_name - authorId
+*/
 
 export const CreateNoteSchema = joi.object({
   authorId: joi.string().required().error(() => {
@@ -15,6 +30,7 @@ export const CreateNoteSchema = joi.object({
   }),
   initialIssue: joi.string().optional(),
   dateCreated: joi.date().default(() => new Date()),
+  visitType: joi.string().optional(),
 });
 
 export interface CreateNoteRequest extends ValidatedRequestSchema {

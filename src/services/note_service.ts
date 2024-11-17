@@ -1,8 +1,9 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import DocumentNotFoundError from 'errors/DocumentNotFoundError';
-import { BaseError } from 'errors';
-import { removeNull } from 'util/removeNull';
 import prisma from 'db/prisma_client';
+import { BaseError } from 'errors';
+import DocumentNotFoundError from 'errors/DocumentNotFoundError';
+import { removeNull } from 'util/removeNull';
+
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { Note } from '@prisma/client';
 
 export interface NoteParams {
@@ -11,6 +12,7 @@ export interface NoteParams {
   noteContent?: string;
   initialIssue?: string;
   dateCreated?: Date;
+  visitType?: string;
 }
 
 const constructQuery = (params: NoteParams) => {
@@ -38,6 +40,14 @@ const getNote = async (id: string): Promise<Note> => {
 
   if (!note) throw new DocumentNotFoundError(id);
   return note;
+}
+
+const getNotesByStudentUUID = async (studentUUID: string): Promise<Note[]> => {
+  return await prisma.note.findMany({
+    where: {
+      studentUUID: studentUUID,
+    },
+  });
 }
 
 const updateNote = async (id: string, params: NoteParams): Promise<Note> => {
@@ -81,6 +91,7 @@ const noteService = {
   getNotes,
   updateNote,
   deleteNote,
+  getNotesByStudentUUID,
 };
 
 export default noteService;

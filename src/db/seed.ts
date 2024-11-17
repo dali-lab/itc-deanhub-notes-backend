@@ -1,5 +1,10 @@
 import bcrypt from 'bcrypt';
-import { UserRole, PrismaClient } from '@prisma/client';
+
+import {
+  PrismaClient,
+  UserRole,
+} from '@prisma/client';
+
 import { HASH_ROUNDS } from '../util/constants';
 
 const prisma = new PrismaClient();
@@ -133,8 +138,8 @@ async function main() {
     }));
 
   /**
-* Note Data
-*/
+   * Note Data
+   */
   const notes = [
     {
       authorId: 'user@gmail.com',

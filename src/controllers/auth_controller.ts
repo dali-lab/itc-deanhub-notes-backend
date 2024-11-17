@@ -30,7 +30,7 @@ const signUpUser: RequestHandler = async (req: ValidatedRequest<SignUpUserReques
       email,
       password,
       name,
-      role: SCOPES.UNVERIFIED.name,
+      role: SCOPES.USER.name, // TODO: Change this to unverified in production
     });
 
     // Save the user then transmit to frontend

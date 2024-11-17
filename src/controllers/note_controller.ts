@@ -1,9 +1,11 @@
 import { RequestHandler } from 'express';
 import { ValidatedRequest } from 'express-joi-validation';
-import { BaseError } from 'errors';
-import { getSuccessfulDeletionMessage } from 'util/constants';
-import { CreateNoteRequest, UpdateNoteRequest } from 'validation/note';
 import { noteService } from 'services';
+import { getSuccessfulDeletionMessage } from 'util/constants';
+import {
+  CreateNoteRequest,
+  UpdateNoteRequest,
+} from 'validation/note';
 
 const createNote: RequestHandler = async (req: ValidatedRequest<CreateNoteRequest>, res, next) => {
   try {
@@ -34,10 +36,19 @@ const getNote: RequestHandler = async (req, res, next) => {
   }
 };
 
+const getNotesByStudentUUID: RequestHandler = async (req, res, next) => {
+  try {
+    const notes = await noteService.getNotesByStudentUUID(req.params.studentUUID);
+    res.status(200).json(notes);
+  } catch (error) {
+    next(error);
+  }
+}
+
 const updateNote: RequestHandler = async (req: ValidatedRequest<UpdateNoteRequest>, res, next) => {
   try {
     // ! Don't let user update protected fields
-    // TODO: what fields should be protected?
+    // TODO what fields should be protected?
     const { noteContent, initialIssue, dateCreated } = req.body;
 
     // make sure fields are not null
@@ -67,6 +78,7 @@ const noteController = {
   getNote,
   updateNote,
   deleteNote,
+  getNotesByStudentUUID,
 };
 
 export default noteController;
