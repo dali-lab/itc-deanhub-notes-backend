@@ -73,7 +73,7 @@ const deleteNote = async (id: string): Promise<Note> => {
   return deletedNote;
 };
 
-const createNote = async (note: Pick<Note, "authorId" | "studentUUID" | "noteContent">): Promise<Note> => {
+const createNote = async (note: Pick<Note, "authorId" | "studentUUID" | "noteContent" | "visitType">): Promise<Note> => {
   try {
     return await prisma.note.create({
       data: {

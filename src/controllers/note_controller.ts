@@ -38,6 +38,7 @@ const getNote: RequestHandler = async (req, res, next) => {
 
 const getNotesByStudentUUID: RequestHandler = async (req, res, next) => {
   try {
+    console.log("backend: " + req.params.studentUUID);
     const notes = await noteService.getNotesByStudentUUID(req.params.studentUUID);
     res.status(200).json(notes);
   } catch (error) {
