@@ -36,7 +36,7 @@
     "dotenv": "^16.4.5",
     "email-validator": "^2.0.4",
     "env-var": "^7.1.1",
-    "express": "^4.17.2",
+    "express": "^4.20.0",
     "express-joi-validation": "^5.0.1",
     "joi": "^17.6.0",
     "jwt-simple": "^0.5.6",
